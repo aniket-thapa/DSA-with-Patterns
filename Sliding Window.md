@@ -74,3 +74,99 @@ public:
     }
 };
 ```
+
+### Question 3:
+
+[https://www.geeksforgeeks.org/problems/longest-k-unique-characters-substring0853/1](https://www.geeksforgeeks.org/problems/longest-k-unique-characters-substring0853/1)
+
+**Solution:**
+
+```cpp
+class Solution {
+public:
+    int longestKSubstr(string &s, int k) {
+        unordered_map<char, int> freq;
+        int left = 0;
+        int maxLen = -1;
+        for (int right = 0; right < s.size(); right++) {
+            freq[s[right]]++;
+            // Shrink window if distinct characters exceed k
+            while (freq.size() > k) {
+                freq[s[left]]--;
+                if (freq[s[left]] == 0) {
+                    freq.erase(s[left]);
+                }
+                left++;
+            }
+            // Update answer when exactly k distinct characters exist
+            if (freq.size() == k) {
+                maxLen = max(maxLen, right - left + 1);
+            }
+        }
+        return maxLen;
+    }
+};
+```
+
+### Question 4:
+
+[https://leetcode.com/problems/fruit-into-baskets](https://leetcode.com/problems/fruit-into-baskets)
+
+**Solution:**
+
+```cpp
+// Similar to previous question.
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        unordered_map<int, int> freq;
+        int left = 0;
+        int maxLen = 0;
+        for (int right = 0; right < fruits.size(); right++) {
+            freq[fruits[right]]++;
+            // Shrink window if distinct characters exceed 2
+            while (freq.size() > 2) {
+                freq[fruits[left]]--;
+                if (freq[fruits[left]] == 0) {
+                    freq.erase(fruits[left]);
+                }
+                left++;
+            }
+            // Update answer when exactly 2 distinct characters exist
+            maxLen = max(maxLen, right - left + 1);
+        }
+        return maxLen;
+    }
+};
+```
+
+### Question 5:
+
+[https://leetcode.com/problems/longest-substring-without-repeating-characters](https://leetcode.com/problems/longest-substring-without-repeating-characters)
+
+**Solution:**
+
+```cpp
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_map<char, int> freq;
+        int left = 0;
+        int maxLen = 0;
+        for (int right = 0; right < s.size(); right++) {
+            freq[s[right]]++;
+            int k = right - left + 1;
+            while (freq.size() < k) {
+                freq[s[left]]--;
+                if (freq[s[left]] == 0) {
+                    freq.erase(s[left]);
+                }
+                left++;
+                k = right - left + 1;
+            }
+            maxLen = max(maxLen, right - left + 1);
+        }
+        return maxLen;
+    }
+};
+```
