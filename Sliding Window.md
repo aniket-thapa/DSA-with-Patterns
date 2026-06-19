@@ -56,18 +56,18 @@ public:
 class Solution {
 public:
     int minSubArrayLen(int target, vector<int>& nums) {
-        int left = 0;
-        int right = 0;
+        int low = 0;
+        int high = 0;
         int sum = 0;
         int minLength = INT_MAX;
-        for (right = 0; right < nums.size(); right++) {
+        for (high = 0; high < nums.size(); high++) {
             // Expand window
-            sum += nums[right];
+            sum += nums[high];
             // Shrink window while condition is satisfied
             while (sum >= target) {
-                minLength = min(minLength, right - left + 1);
-                sum = sum - nums[left];
-                left++;
+                minLength = min(minLength, high - low + 1);
+                sum = sum - nums[low];
+                low++;
             }
         }
         return (minLength == INT_MAX) ? 0 : minLength;
@@ -86,21 +86,21 @@ class Solution {
 public:
     int longestKSubstr(string &s, int k) {
         unordered_map<char, int> freq;
-        int left = 0;
+        int low = 0;
         int maxLen = -1;
-        for (int right = 0; right < s.size(); right++) {
-            freq[s[right]]++;
+        for (int high = 0; high < s.size(); high++) {
+            freq[s[high]]++;
             // Shrink window if distinct characters exceed k
             while (freq.size() > k) {
-                freq[s[left]]--;
-                if (freq[s[left]] == 0) {
-                    freq.erase(s[left]);
+                freq[s[low]]--;
+                if (freq[s[low]] == 0) {
+                    freq.erase(s[low]);
                 }
-                left++;
+                low++;
             }
             // Update answer when exactly k distinct characters exist
             if (freq.size() == k) {
-                maxLen = max(maxLen, right - left + 1);
+                maxLen = max(maxLen, high - low + 1);
             }
         }
         return maxLen;
@@ -120,20 +120,20 @@ class Solution {
 public:
     int totalFruit(vector<int>& fruits) {
         unordered_map<int, int> freq;
-        int left = 0;
+        int low = 0;
         int maxLen = 0;
-        for (int right = 0; right < fruits.size(); right++) {
-            freq[fruits[right]]++;
+        for (int high = 0; high < fruits.size(); high++) {
+            freq[fruits[high]]++;
             // Shrink window if distinct characters exceed 2
             while (freq.size() > 2) {
-                freq[fruits[left]]--;
-                if (freq[fruits[left]] == 0) {
-                    freq.erase(fruits[left]);
+                freq[fruits[low]]--;
+                if (freq[fruits[low]] == 0) {
+                    freq.erase(fruits[low]);
                 }
-                left++;
+                low++;
             }
             // Update answer when exactly 2 distinct characters exist
-            maxLen = max(maxLen, right - left + 1);
+            maxLen = max(maxLen, high - low + 1);
         }
         return maxLen;
     }
@@ -151,20 +151,20 @@ class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
         unordered_map<char, int> freq;
-        int left = 0;
+        int low = 0;
         int maxLen = 0;
-        for (int right = 0; right < s.size(); right++) {
-            freq[s[right]]++;
-            int k = right - left + 1;
+        for (int high = 0; high < s.size(); high++) {
+            freq[s[high]]++;
+            int k = high - low + 1;
             while (freq.size() < k) {
-                freq[s[left]]--;
-                if (freq[s[left]] == 0) {
-                    freq.erase(s[left]);
+                freq[s[low]]--;
+                if (freq[s[low]] == 0) {
+                    freq.erase(s[low]);
                 }
-                left++;
-                k = right - left + 1;
+                low++;
+                k = high - low + 1;
             }
-            maxLen = max(maxLen, right - left + 1);
+            maxLen = max(maxLen, high - low + 1);
         }
         return maxLen;
     }
@@ -182,18 +182,18 @@ class Solution {
 public:
     int characterReplacement(string s, int k) {
         unordered_map<char, int> freq;
-        int left = 0;
+        int low = 0;
         int maxFreq = 0;
         int maxLen = 0;
-        for (int right = 0; right < s.size(); right++) {
-            freq[s[right]]++;
-            maxFreq = max(maxFreq, freq[s[right]]);
+        for (int high = 0; high < s.size(); high++) {
+            freq[s[high]]++;
+            maxFreq = max(maxFreq, freq[s[high]]);
 
-            while ((right - left + 1) - maxFreq > k) {
-                freq[s[left]]--;
-                left++;
+            while ((high - low + 1) - maxFreq > k) {
+                freq[s[low]]--;
+                low++;
             }
-            maxLen = max(maxLen, right - left + 1);
+            maxLen = max(maxLen, high - low + 1);
         }
         return maxLen;
     }
