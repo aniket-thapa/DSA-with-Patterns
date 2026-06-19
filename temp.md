@@ -4,6 +4,8 @@ I have a markdown which contains the videos name with number and its transcript 
 
 ---
 
+You are an expert DSA educator and note-maker.
+
 I am providing two files:
 
 1. Video lecture transcripts of the complete Sliding Window Pattern.
